@@ -10,9 +10,8 @@ import { updateSearchParams } from "@/utils";
 
 export default function CustomFilter({ title, options }: CustomFilterProps) {
     const router = useRouter();
-    const [selected, setSelected] = useState(options[0]); // State for storing the selected option
+    const [selected, setSelected] = useState(options[0]);
 
-    // update the URL search parameters and navigate to the new URL
     const handleUpdateParams = (e: { title: string; value: string }) => {
         const newPathName = updateSearchParams(title, e.value.toLowerCase());
 
