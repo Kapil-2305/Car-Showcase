@@ -49,7 +49,6 @@ const SearchBar = () => {
             searchParams.delete("manufacturer");
         }
 
-        // Generate the new pathname with the updated search parameters
         const newPathname = `${window.location.pathname}?${searchParams.toString()}`;
 
         router.push(newPathname);
