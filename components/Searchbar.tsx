@@ -43,7 +43,6 @@ const SearchBar = () => {
             searchParams.delete("model");
         }
 
-        // Update or delete the 'manufacturer' search parameter based on the 'manufacturer' value
         if (manufacturer) {
             searchParams.set("manufacturer", manufacturer);
         } else {
