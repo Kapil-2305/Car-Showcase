@@ -37,7 +37,6 @@ const SearchBar = () => {
     const updateSearchParams = (model: string, manufacturer: string) => {
         const searchParams = new URLSearchParams(window.location.search);
 
-        // Update or delete the 'model' search parameter based on the 'model' value
         if (model) {
             searchParams.set("model", model);
         } else {
