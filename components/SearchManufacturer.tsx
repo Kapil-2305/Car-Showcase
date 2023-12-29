@@ -19,7 +19,6 @@ const SearchManufacturer = ({ manufacturer, setManuFacturer }: SearchManuFacture
         <div className='search-manufacturer'>
             <Combobox value={manufacturer} onChange={setManuFacturer}>
                 <div className='relative w-full'>
-                    {/* Button for the combobox. Click on the icon to see the complete dropdown */}
                     <Combobox.Button className='absolute top-[14px]'>
                         <Image
                             src='/car-logo.svg'
@@ -30,11 +29,10 @@ const SearchManufacturer = ({ manufacturer, setManuFacturer }: SearchManuFacture
                         />
                     </Combobox.Button>
 
-                    {/* Input field for searching */}
                     <Combobox.Input
                         className='search-manufacturer__input'
                         displayValue={(item: string) => item}
-                        onChange={(event) => setQuery(event.target.value)} // Update the search query when the input changes
+                        onChange={(event) => setQuery(event.target.value)} 
                         placeholder='Volkswagen...'
                     />
 
@@ -71,13 +69,13 @@ const SearchManufacturer = ({ manufacturer, setManuFacturer }: SearchManuFacture
                                         {({ selected, active }) => (
                                             <>
                                                 <span className={`block truncate ${selected ? "font-medium" : "font-normal"}`}>
-                                                {item}
+                                                    {item}
                                                 </span>
 
                                                 {/* Show an active blue background color if the option is selected */}
                                                 {selected ? (
-                                                <span className={`absolute inset-y-0 left-0 flex items-center pl-3 ${active? "text-white": "text-pribg-primary-purple"}`}
-                                                ></span>
+                                                    <span className={`absolute inset-y-0 left-0 flex items-center pl-3 ${active? "text-white": "text-pribg-primary-purple"}`}
+                                                    ></span>
                                                 ) : null}
                                             </>
                                         )}
