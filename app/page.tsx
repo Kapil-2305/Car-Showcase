@@ -1,3 +1,5 @@
+"use client";
+
 import { fetchCars } from "@/utils";
 import { HomeProps } from "@/types";
 import { fuels, yearsOfProduction } from "@/constants";
@@ -6,17 +8,60 @@ import SearchBar from "@/components/Searchbar";
 import CustomFilter from "@/components/CustomFilter";
 import CarCard from "@/components/CarCard";
 import ShowMore from "@/components/ShowMore";
+import { useEffect, useState } from "react";
+import Image from "next/image";
 
-export default async function Home({ searchParams }: HomeProps) {
-    const allCars = await fetchCars({
-        manufacturer: searchParams.manufacturer || "",
-        year: searchParams.year || 2022,
-        fuel: searchParams.fuel || "",
-        limit: searchParams.limit || 10,
-        model: searchParams.model || "",
-    });
+export default async function Home() {
+    // const allCars = await fetchCars({
+    //     manufacturer: searchParams.manufacturer || "",
+    //     year: searchParams.year || 2022,
+    //     fuel: searchParams.fuel || "",
+    //     limit: searchParams.limit || 10,
+    //     model: searchParams.model || "",
+    // });
 
-    const isDataEmpty = !Array.isArray(allCars) || allCars.length < 1 || !allCars;
+    const [allCars, setAllCars] = useState([]);
+    const [loading, setLoading] = useState(false);
+
+    // search states
+    const [manufacturer, setManufacturer] = useState("");
+    const [model, setModel] = useState("");
+
+    // filter states
+    const [fuel, setFuel] = useState("");
+    const [year, setYear] = useState(2022);
+
+    // pagination states
+    const [limit, setLimit] = useState(10);
+
+    const getCars = async () => {
+        setLoading(true);
+
+        try{
+            const cars = await fetchCars({
+                manufacturer,
+                year,
+                fuel,
+                limit,
+                model,
+            });
+    
+            setAllCars(cars);
+        }
+        catch(error){
+            console.log(error);
+        }
+        finally{
+            setLoading(false);
+        }
+    }
+
+    useEffect(() => {
+        getCars();
+    }, [manufacturer, model, fuel, year, limit]);
+
+    // const isDataEmpty = !Array.isArray(allCars) || allCars.length < 1 || !allCars;
+    console.log(allCars);
 
     return (
         <main className='overflow-hidden'>
@@ -29,15 +74,15 @@ export default async function Home({ searchParams }: HomeProps) {
                 </div>
 
                 <div className='home__filters'>
-                    <SearchBar />
+                    <SearchBar setManufacturer={setManufacturer} setModel={setModel}/>
 
                     <div className='home__filter-container'>
-                        <CustomFilter title='fuel' options={fuels} />
-                        <CustomFilter title='year' options={yearsOfProduction} />
+                        <CustomFilter title='fuel' options={fuels} setFilter={setFuel}/>
+                        <CustomFilter title='year' options={yearsOfProduction} setFilter={setYear} />
                     </div>
                 </div>
 
-                {!isDataEmpty ? (
+                {allCars.length > 0 ? (
                     <section>
                         <div className='home__cars-wrapper'>
                             {allCars?.map((car) => (
@@ -45,9 +90,24 @@ export default async function Home({ searchParams }: HomeProps) {
                             ))}
                         </div>
 
+                        {
+                            loading && (
+                                <div className='w-full flex-center mt-16'>
+                                    <Image 
+                                        src='/loading.svg' 
+                                        width={50} 
+                                        height={50} 
+                                        alt='loading'
+                                        className="object-contain"
+                                    />
+                                </div>
+                            )
+                        }
+
                         <ShowMore
-                            pageNumber={(searchParams.limit || 10) / 10}
-                            isNext={(searchParams.limit || 10) > allCars.length}
+                            pageNumber={limit / 10}
+                            isNext={limit > allCars.length}
+                            setLimit={setLimit}
                         />
                     </section>
                 ) : (
