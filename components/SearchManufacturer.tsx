@@ -31,7 +31,7 @@ const SearchManufacturer = ({ selected, setSelected }: SearchManuFacturerProps) 
 
                     <Combobox.Input
                         className='search-manufacturer__input'
-                        displayValue={(item: string) => item}
+                        displayValue={(manufacturer: string) => manufacturer}
                         onChange={(event) => setQuery(event.target.value)} 
                         placeholder='Volkswagen...'
                     />
@@ -43,18 +43,8 @@ const SearchManufacturer = ({ selected, setSelected }: SearchManuFacturerProps) 
                         leaveTo='opacity-0'
                         afterLeave={() => setQuery("")}
                     >
-                        <Combobox.Options
-                            className='absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm'
-                            static
-                        >
-                            {filteredManufacturers.length === 0 && query !== "" ? (
-                                <Combobox.Option
-                                    value={query}
-                                    className='search-manufacturer__option'
-                                >
-                                    Create "{query}"
-                                </Combobox.Option>
-                                ) : (
+                        <Combobox.Options>
+                            {
                                 filteredManufacturers.map((item) => (
                                     <Combobox.Option
                                         key={item}
@@ -71,16 +61,15 @@ const SearchManufacturer = ({ selected, setSelected }: SearchManuFacturerProps) 
                                                     {item}
                                                 </span>
 
-                                                {/* Show an active blue background color if the option is selected */}
                                                 {selected ? (
-                                                    <span className={`absolute inset-y-0 left-0 flex items-center pl-3 ${active? "text-white": "text-pribg-primary-purple"}`}
+                                                    <span className={`absolute inset-y-0 left-0 flex items-center pl-3 ${active? "text-white": "text-teal-600"}`}
                                                     ></span>
                                                 ) : null}
                                             </>
                                         )}
                                     </Combobox.Option>
                                 ))
-                            )}
+                            }
                         </Combobox.Options>
                     </Transition>
                 </div>
