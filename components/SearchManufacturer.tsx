@@ -17,7 +17,7 @@ const SearchManufacturer = ({ selected, setSelected }: SearchManuFacturerProps) 
 
     return (
         <div className='search-manufacturer'>
-            <Combobox value={manufacturer} onChange={setManuFacturer}>
+            <Combobox value={selected} onChange={setSelected}>
                 <div className='relative w-full'>
                     <Combobox.Button className='absolute top-[14px]'>
                         <Image
@@ -36,13 +36,12 @@ const SearchManufacturer = ({ selected, setSelected }: SearchManuFacturerProps) 
                         placeholder='Volkswagen...'
                     />
 
-                    {/* Transition for displaying the options */}
                     <Transition
-                        as={Fragment} // group multiple elements without introducing an additional DOM node i.e., <></>
+                        as={Fragment}
                         leave='transition ease-in duration-100'
                         leaveFrom='opacity-100'
                         leaveTo='opacity-0'
-                        afterLeave={() => setQuery("")} // Reset the search query after the transition completes
+                        afterLeave={() => setQuery("")}
                     >
                         <Combobox.Options
                             className='absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm'
