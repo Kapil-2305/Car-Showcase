@@ -1,7 +1,7 @@
 "use client";
 
 import { fetchCars } from "@/utils";
-import { HomeProps } from "@/types";
+// import { HomeProps } from "@/types";
 import { fuels, yearsOfProduction } from "@/constants";
 import Hero from "@/components/Hero";
 import SearchBar from "@/components/Searchbar";
@@ -39,11 +39,11 @@ export default async function Home() {
 
         try{
             const cars = await fetchCars({
-                manufacturer,
-                year,
-                fuel,
-                limit,
-                model,
+                manufacturer: manufacturer || '',
+                year: year || 2022,
+                fuel: fuel || '',
+                limit: limit || 10,
+                model: model || '',
             });
     
             setAllCars(cars);
@@ -85,8 +85,8 @@ export default async function Home() {
                 {allCars.length > 0 ? (
                     <section>
                         <div className='home__cars-wrapper'>
-                            {allCars?.map((car) => (
-                                <CarCard car={car} />
+                            {allCars?.map((car, key) => (
+                                <CarCard key={key} car={car} />
                             ))}
                         </div>
 
